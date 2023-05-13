@@ -4,44 +4,90 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Driver;
 
 namespace Mongo.Models.Services
 {
     public class PositionService : PositionRepository
     {
-        public bool delete(int key)
+        TestDBContext context = new TestDBContext();
+
+        public PositionService()
         {
-            throw new NotImplementedException();
+        }
+
+        public PositionService(TestDBContext context)
+        {
+            this.context = context;
+        }
+
+        public bool delete(string key)
+        {
+            try
+            {
+                context.Positions.DeleteOne(x => x._id == key);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         public List<Position> getAll()
         {
-            throw new NotImplementedException();
+            var Positions = context.Positions.Find(FilterDefinition<Position>.Empty).ToList();
+            return Positions;
         }
 
-        public Position getById(int key)
+        public Position getById(string key)
         {
-            throw new NotImplementedException();
+            var Position = context.Positions.Find(x => x._id == key).FirstOrDefault();
+            return Position;
         }
 
         public bool insert(Position entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                context.Positions.InsertOne(entity);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         public List<Position> pagination(int page, int size, out long totalPage)
         {
-            throw new NotImplementedException();
+            int skip = size * (page - 1);
+            long rows = context.Positions.CountDocuments(FilterDefinition<Position>.Empty);
+            totalPage = rows % size == 0 ? rows / size : rows / size + 1;
+            return context.Positions.Find(FilterDefinition<Position>.Empty).Skip(skip).Limit(size).ToList();
         }
 
         public List<Position> searchPagination(string name, int page, int size, out long totalPage)
         {
-            throw new NotImplementedException();
+            int skip = size * (page - 1);
+            long rows = context.Positions.CountDocuments(x => x.name.ToLower().Contains(name.ToLower()));
+            totalPage = rows % size == 0 ? rows / size : rows / size + 1;
+            return context.Positions.Find(x => x.name.ToLower().Contains(name.ToLower())).Skip(skip).Limit(size).ToList();
         }
 
         public bool update(Position entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var data = Builders<Position>.Update
+                    .Set("name", entity.name);
+                context.Positions.UpdateOne(x => x._id == entity._id, data);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

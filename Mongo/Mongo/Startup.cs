@@ -37,6 +37,7 @@ namespace Mongo
             services.AddScoped<PositionRepository, PositionService>();
             services.AddScoped<AreaRepository, AreaService>();
             services.AddScoped<EmployeeRepository, EmployeeService>();
+            services.AddScoped<AccountRepository, AccountService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
