@@ -42,7 +42,7 @@ namespace Mongo.Models.Services
         }
 
         public List<DepartmentViewModel> getViewAll(int page, int size, out long totalPage)
-        {
+        {   
             int skip = size * (page - 1);
             long rows = context.Departments.CountDocuments(FilterDefinition<Department>.Empty);
             totalPage = rows % size == 0 ? rows / size : rows / size + 1;
@@ -55,7 +55,7 @@ namespace Mongo.Models.Services
                 dep.name = item.name;
                 dep.status = item.status;
                 dep.count = context.Employees.CountDocuments(x => x.departmentID == item._id);
-                var leads = context.Employees.Find(x => x.departmentID == item._id && x.positionID == "4").ToList();
+                var leads = context.Employees.Find(x => x.departmentID == item._id && x.positionID == "po09").ToList();
                 var data = "";
                 if (leads.Count() > 0)
                 {

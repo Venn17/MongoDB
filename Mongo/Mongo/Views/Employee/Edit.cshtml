@@ -10,90 +10,108 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <img src="~/images/@Model.image" alt="@Model.image" width="200px" style="border-radius:50%;height:200px"/>
+            </div>
+        </div>
+        <form asp-action="UpdateAsync" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="_id" class="control-label"></label>
-                <input asp-for="_id" class="form-control" />
+                <input asp-for="_id" hidden class="form-control" />
                 <span asp-validation-for="_id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="firstName" class="control-label"></label>
+                <label asp-for="firstName" class="control-label">First Name</label>
                 <input asp-for="firstName" class="form-control" />
                 <span asp-validation-for="firstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="lastName" class="control-label"></label>
+                <label asp-for="lastName" class="control-label">Last Name</label>
                 <input asp-for="lastName" class="form-control" />
                 <span asp-validation-for="lastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="image" class="control-label"></label>
-                <input asp-for="image" class="form-control" />
+                <label asp-for="image" class="control-label">Avatar</label>
+                <input asp-for="image" type="file" class="form-control" value="@Model.image" data-content="@Model.image" />
                 <span asp-validation-for="image" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="email" class="control-label"></label>
+                <label asp-for="email" class="control-label">Email</label>
                 <input asp-for="email" class="form-control" />
                 <span asp-validation-for="email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="phone" class="control-label"></label>
+                <label asp-for="phone" class="control-label">Phone</label>
                 <input asp-for="phone" class="form-control" />
                 <span asp-validation-for="phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="age" class="control-label"></label>
+                <label asp-for="age" class="control-label">Age</label>
                 <input asp-for="age" class="form-control" />
                 <span asp-validation-for="age" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="gender" /> @Html.DisplayNameFor(model => model.gender)
-                    </label>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label class="w-25">Gender</label>
+                        <input type="radio" asp-for="gender" value="true" class="mr-2" />Male
+                        <input type="radio" asp-for="gender" value="false" class="mr-2 ml-5" />Female
+                    </div>
                 </div>
             </div>
             <div class="form-group">
-                <label asp-for="address" class="control-label"></label>
+                <label asp-for="address" class="control-label">Address</label>
                 <input asp-for="address" class="form-control" />
                 <span asp-validation-for="address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="experience" class="control-label"></label>
+                <label asp-for="experience" class="control-label">Experience</label>
                 <input asp-for="experience" class="form-control" />
                 <span asp-validation-for="experience" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="description" class="control-label"></label>
-                <input asp-for="description" class="form-control" />
+                <label asp-for="description" class="control-label">Description</label>
+                <textarea asp-for="description" class="form-control" rows="7" cols="70"></textarea>
                 <span asp-validation-for="description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="departmentID" class="control-label"></label>
-                <input asp-for="departmentID" class="form-control" />
+                <label asp-for="departmentID" class="control-label">Department</label>
+                <select asp-for="departmentID" class="form-control" onfocus="this.size = 3" onblur='this.size = 3' onchange="this.size = 3; this.blur();">
+                    @foreach (var item in ViewBag.Department)
+                    {
+                        <option value="@item._id">@item.name</option>
+                    }
+                </select>
                 <span asp-validation-for="departmentID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="areaID" class="control-label"></label>
-                <input asp-for="areaID" class="form-control" />
-                <span asp-validation-for="areaID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="positionID" class="control-label"></label>
-                <input asp-for="positionID" class="form-control" />
+                <label asp-for="positionID" class="control-label">Position</label>
+                <select asp-for="positionID" class="form-control" onfocus="this.size = 3" onblur='this.size = 3' onchange="this.size = 3; this.blur();">
+                    @foreach (var item in ViewBag.Position)
+                    {
+                        <option value="@item._id">@item.name</option>
+                    }
+                </select>
                 <span asp-validation-for="positionID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <label asp-for="areaID" class="control-label">Area</label>
+                <select asp-for="areaID" class="form-control" onfocus="this.size = 3" onblur='this.size = 3' onchange="this.size = 3; this.blur();">
+                    @foreach (var item in ViewBag.Area)
+                    {
+                        <option value="@item._id">@item.name</option>
+                    }
+                </select>
+                <span asp-validation-for="areaID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success mr-5" />
+                <a class="btn btn-primary" href="/employee">Back To List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 

@@ -12,12 +12,16 @@ namespace Mongo.Models.Services
 {
     public class AccountService : AccountRepository
     {
-        TestDBContext context;
+        TestDBContext context = new TestDBContext();
         private static Random random = new Random();
 
         public AccountService(TestDBContext context)
         {
             this.context = context;
+        }
+
+        public AccountService()
+        {
         }
 
         public Account checkLogin(string email, string password)
@@ -104,6 +108,12 @@ namespace Mongo.Models.Services
             return context.Logined.Find(FilterDefinition<Logined>.Empty).FirstOrDefault();
         }
 
+        public Account getProfile()
+        {
+            var data = context.Logined.Find(FilterDefinition<Logined>.Empty).FirstOrDefault();
+            return context.Accounts.Find(x => x._id == data._id).FirstOrDefault();
+        }
+
         public Account register(Account data)
         {
             try
@@ -115,6 +125,13 @@ namespace Mongo.Models.Services
                 return null;
             }
             return data;
+        }
+
+        public bool Logout()
+        {
+            var data = context.Logined.Find(FilterDefinition<Logined>.Empty).FirstOrDefault();
+            context.Logined.DeleteOne(x => x._id == data._id);
+            return true;
         }
     }
 }

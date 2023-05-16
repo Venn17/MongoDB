@@ -7,7 +7,8 @@ namespace Mongo.Models.ViewModels
 {
     public class PositionViewModel
     {
+        public string _id { get; set; }
         public string name { get; set; }
-        public int count { get; set; }
+        public long count { get; set; }
     }
 }

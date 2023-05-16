@@ -20,6 +20,12 @@ namespace Mongo.Controllers
         {
             long row;
             var data = employeeService.getInfomation(page, 6, out row);
+            var dep = department.getAll();
+            var po = position.getAll();
+            var a = area.getAll();
+            ViewBag.Department = dep;
+            ViewBag.Position = po;
+            ViewBag.Area = a;
             ViewBag.totalPage = row;
             ViewBag.CurrentPage = page;
             return View(data);
@@ -76,12 +82,11 @@ namespace Mongo.Controllers
         // POST: Employee/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> UpdateAsync([FromForm] EmployeeModel collection)
         {
             try
             {
-                // TODO: Add update logic here
-
+                await employeeService.UpdateOptions(collection);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -91,26 +96,29 @@ namespace Mongo.Controllers
         }
 
         // GET: Employee/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            return View();
+            employeeService.delete(id);
+            return RedirectToAction("Index");
         }
 
-        // POST: Employee/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Search(string key,string depID, string positionID,string areaID,int page = 1)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            long row;
+            var data = employeeService.getInfomationAndSearch(key,depID,positionID,areaID,page, 6, out row);
+            var dep = department.getAll();
+            var po = position.getAll();
+            var a = area.getAll();
+            ViewBag.Department = dep;
+            ViewBag.Position = po;
+            ViewBag.Area = a;
+            ViewBag.Key = key;
+            ViewBag.DepartmentID = depID;
+            ViewBag.PositionID = positionID;
+            ViewBag.AreaID = areaID;
+            ViewBag.totalPage = row;
+            ViewBag.CurrentPage = page;
+            return View(data);
         }
     }
 }

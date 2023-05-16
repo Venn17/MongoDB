@@ -1,0 +1,58 @@
+﻿@model Mongo.Models.DataModels.Account;
+
+@{
+    ViewData["Title"] = "getInfor";
+}
+
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2 style="font-family:Consolas">Profile User</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <td>@Html.DisplayFor(model => model.name)</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>@Html.DisplayFor(model => model.email)</td>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    @if (Model.role == 0)
+                    {
+                        <td>Admin</td>
+                    }
+                    else
+                    {
+                        <td>User</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    @if (Model.status)
+                    {
+                        <td>Active</td>
+                    }
+                    else
+                    {
+                        <td>No Active</td>
+                    }
+                </tr>
+            </table>
+            <div class="container mb-5">
+                <div class="row">
+                    <a asp-action="Edit" asp-route-id="@Model._id" class="btn btn-success mr-3">Edit</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

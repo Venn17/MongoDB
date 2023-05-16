@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Mongo.Models.ViewModels.EmployeeViewModel>;
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2 style="font-family:Consolas">Detail Position</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <table class="table table-hover">
+                <tr>
+                    <th>Name</th>
+                    <th>@ViewBag.Position.name</th>
+                </tr>
+                <tr>
+                    <th>Count Employee</th>
+                    <td>@ViewBag.Position.count</td>
+                </tr>
+            </table>
+            <div>
+                <a class="btn btn-success" asp-controller="position" asp-action="Edit" asp-route-id="@ViewBag.Position._id">Edit</a>
+                <a class="btn btn-secondary" asp-controller="position" asp-action="Index">Back To List</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5 mb-5">
+    <h3 class="text-center" style="font-family:Century;color:red;margin-bottom:20px">List Employee In Position : @ViewBag.Position.name</h3>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="card col-4 bg-dark" style="border-radius:20px;max-width:31%!important;margin:0 10px;">
+                <img class="card-img-top w-100 mt-2" src="~/images/@item.image" alt="@item.image" style="height:280px;border-radius:20px;">
+                <div class="card-body">
+                    <p class="card-text">FullName : @item.firstName <b> @item.lastName</b></p>
+                    <p class="card-text">Age : @item.age</p>
+                    <p class="card-text">Department : @item.departmentName</p>
+                    <p class="card-text">Area : @item.areaName</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        @if (ViewBag.totalPage > 1)
+        {
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <li class="page-item mr-2"><a class="page-link" style="border-radius:20px" href="/position/details?page=@(ViewBag.CurrentPage - 1)&id=@ViewBag.Position._id">Previous</a></li>
+            }
+            @for (int i = 0; i < ViewBag.totalPage; i++)
+            {
+                if (i + 1 == ViewBag.CurrentPage)
+                {
+                    <li class="page-item active mr-2"><a class="page-link" style="border-radius:20px" href="/position/details?page=@(i + 1)&id=@ViewBag.Position._id">@(i + 1)</a></li>
+                }
+                else
+                {
+                    <li class="page-item mr-2"><a class="page-link" style="border-radius:20px" href="/position/details?page=@(i + 1)&id=@ViewBag.Position._id">@(i + 1)</a></li>
+                }
+            }
+            @if (ViewBag.CurrentPage < ViewBag.totalPage)
+            {
+                <li class="page-item"><a class="page-link" style="border-radius:20px" href="/position/details?page=@(ViewBag.CurrentPage + 1)&id=@ViewBag.Position._id">Next</a></li>
+            }
+        }
+    </ul>
+</nav>
