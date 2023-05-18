@@ -13,26 +13,29 @@ namespace Mongo.Controllers
         AccountService service = new AccountService();
         public IActionResult Index()
         {
-            return View("~/Views/Login/Index.cshtml");
+            return View("Views/Home/Login.cshtml");
         }
 
         [HttpPost]
         public IActionResult Login(string name,string pass)
         {
-           if(service.checkLogin(name, pass) == null)
+           var data = service.checkLogin(name, pass);
+           if (data == null)
             {
                 ViewBag.Message = "Email or Password NOT correct !! Try Again ";
+                return View("/Views/Home/Login.cshtml");
             }
-            return View("Home/Index");
+            ViewBag.Login = data;
+            return View("/Views/Home/Index.cshtml");
         }
 
         public IActionResult Logout()
         {
             service.Logout();
-            return View("Login");
+            return RedirectToAction("Index");
         }
 
-        public IActionResult getInfor()
+        public IActionResult Profile()
         {
             var data = service.getProfile();
             return View(data);

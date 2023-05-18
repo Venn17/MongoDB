@@ -59,7 +59,7 @@ namespace Mongo.Models.Services
                     {
                         var senderEmail = new MailAddress("vienavtb@gmail.com", "CongVien");
                         var receiverEmail = new MailAddress(email, "Receiver");
-                        var password = "rwpezipvxnciwrij";
+                        var password = "ldfrmxmuetzukizh";
                         var subject = "Here's the link to reset your password";
                         var body = "<p>Hello,</p>" + "<p>You have requested to reset your password.</p>"
                         + "<p> below to change your password:</p>"
@@ -85,8 +85,7 @@ namespace Mongo.Models.Services
                         {
                             smtp.Send(mess);
                         }
-                        account.password = new_pass;
-                        var data = Builders<Account>.Update
+                    var data = Builders<Account>.Update
                         .Set("name", account.name)
                         .Set("email", account.email)
                         .Set("password",new_pass)
@@ -96,9 +95,9 @@ namespace Mongo.Models.Services
                     }
                     return true;
                 }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
             return false;
         }
