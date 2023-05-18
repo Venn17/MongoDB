@@ -1,0 +1,38 @@
+﻿@model Mongo.Models.DataModels.Department
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2 style="font-family:Consolas">Create Department</h2>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form asp-action="Insert" class="border p-5 bg-gradient-navy" style="border-radius:20px;">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Name</label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label class="w-25">Status</label>
+                    <input type="radio" asp-for="status" value="true" class="mr-2" />Active
+                    <input type="radio" asp-for="status" value="false" class="mr-2 ml-5" />No Active
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+

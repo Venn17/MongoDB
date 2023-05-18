@@ -1,0 +1,28 @@
+﻿@model Mongo.Models.DataModels.Position
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2 style="font-family:Consolas">Create Position</h2>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form asp-action="Insert">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label">Name</label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-info">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

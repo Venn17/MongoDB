@@ -1,0 +1,95 @@
+﻿@model Mongo.Models.ViewModels.EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2 style="font-family:Consolas">Employee Detail</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <td>
+                        <img src="~/images/@Model.image" alt="@Model.image" width="300px" style="border-radius:50%;height:300px;margin-left:10%" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <td>@Html.DisplayFor(model => model.firstName)</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td>@Html.DisplayFor(model => model.lastName)</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>@Html.DisplayFor(model => model.email)</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>@Html.DisplayFor(model => model.phone)</td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td>@Html.DisplayFor(model => model.age)</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    @if (Model.gender)
+                    {
+                        <td>Male</td>
+                    }
+                    else
+                    {
+                        <td>Female</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>@Html.DisplayFor(model => model.address)</td>
+                </tr>
+                <tr>
+                    <th>Experiences</th>
+                    <td>@Html.DisplayFor(model => model.experience) years</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>
+                        <textarea id="textarea" rows="7" cols="70" disabled>
+                            @Html.DisplayFor(model => model.description)
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Department</th>
+                    <td>@Html.DisplayFor(model => model.departmentName)</td>
+                </tr>
+                <tr>
+                    <th>Position</th>
+                    <td>@Html.DisplayFor(model => model.positionName)</td>
+                </tr>
+                <tr>
+                    <th>Area</th>
+                    <td>@Html.DisplayFor(model => model.areaName)</td>
+                </tr>
+            </table>
+            <div class="container mb-5">
+                <div class="row">
+                    <a asp-action="Edit" asp-route-id="@Model._id" class="btn btn-success mr-3">Edit</a>
+                    <a asp-action="Index" class="btn btn-info">Back to List</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+      
+
+

@@ -37,6 +37,7 @@ namespace Mongo
             services.AddScoped<PositionRepository, PositionService>();
             services.AddScoped<AreaRepository, AreaService>();
             services.AddScoped<EmployeeRepository, EmployeeService>();
+            services.AddScoped<AccountRepository, AccountService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -60,7 +61,7 @@ namespace Mongo
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Index}");
             });
         }
     }

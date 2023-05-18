@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Mongo.Models.ViewModels.PositionViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2 style="font-family:Consolas">Management Positions</h2>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error!</strong>@ViewBag.Message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 d-inline-flex">
+            <form class="col-10 form-inline" asp-action="Index">
+                <div class="form-group">
+                    <input class="form-control mr-2" name="key" value="@ViewBag.Key" style="border-radius:20px;width:450px" id="search" />
+                </div>
+                <div class="form-group">
+                    <select name="areaID" class="form-control mr-1" style="border-radius:20px;width:200px" onfocus="this.size = 3" onblur='this.size = 3' onchange="this.size = 3; this.blur();">
+                        <option value="">Choose Area</option>
+                        @foreach (var item in ViewBag.Area)
+                        {
+                            if (item._id == ViewBag.AreaID)
+                            {
+                                <option value="@item._id" selected>@item.name</option>
+                            }
+                            else
+                            {
+                                <option value="@item._id">@item.name</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <button class="btn btn-default" style="border-radius:20px;width:100px" type="submit">Search</button>
+            </form>
+            <button class="btn btn-success col-2" style="margin-bottom:1rem;margin-top:1rem;border-radius:20px">
+                <a style="color:#fff" asp-controller="position" asp-action="Create">Create A New</a>
+            </button>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Employee In
+            </th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.count)
+                </td>
+                <td>
+                    <a asp-controller="position" asp-action="details" asp-route-id="@item._id" class="btn btn-success">Detail</a>
+                    <a asp-controller="position" asp-action="edit" asp-route-id="@item._id" class="btn btn-warning">Edit</a>
+                    <a class="btn btn-danger" asp-controller="position" asp-action="delete" asp-route-id="@item._id" onclick="return confirm('Do you want to delete this position ?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        @if (ViewBag.totalPage > 1)
+        {
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <li class="page-item mr-2"><a class="page-link" style="border-radius:20px" href="/position?page=@(ViewBag.CurrentPage - 1)&key=@ViewBag.Key&areaID=@ViewBag.AreaID">Previous</a></li>
+            }
+            @for (int i = 0; i < ViewBag.totalPage; i++)
+            {
+                if (i + 1 == ViewBag.CurrentPage)
+                {
+                    <li class="page-item active mr-2"><a class="page-link" style="border-radius:20px" href="/position?page=@(i + 1)&key=@ViewBag.Key&areaID=@ViewBag.AreaID">@(i + 1)</a></li>
+                }
+                else
+                {
+                    <li class="page-item mr-2"><a class="page-link" style="border-radius:20px" href="/position?page=@(i + 1)&key=@ViewBag.Key&areaID=@ViewBag.AreaID">@(i + 1)</a></li>
+                }
+            }
+            @if (ViewBag.CurrentPage < ViewBag.totalPage)
+            {
+                <li class="page-item"><a class="page-link" style="border-radius:20px" href="/position?page=@(ViewBag.CurrentPage + 1)&key=@ViewBag.Key&areaID=@ViewBag.AreaID">Next</a></li>
+            }
+        }
+    </ul>
+</nav>

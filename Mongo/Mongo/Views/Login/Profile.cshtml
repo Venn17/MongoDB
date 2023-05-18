@@ -1,0 +1,60 @@
+﻿@model Mongo.Models.DataModels.Account;
+@{
+    ViewData["Title"] = "Profile";
+}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2 style="font-family:Consolas">My Profile</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <table class="table">
+                <tr>
+                    <th>Name</th>
+                    <td>@Html.DisplayFor(model => model.name)</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>@Html.DisplayFor(model => model.email)</td>
+                </tr>
+                <tr>
+                    <th>Role</th>
+                    <td>
+                        @if (Model.role == 0)
+                        {
+                            <p class="text-green text-bold">Admin</p>
+                        }
+                        else
+                        {
+                            <p class="text-green text-bold">User</p>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>
+                        @if (Model.status)
+                        {
+                            <p class="text-green text-bold">Active</p>
+                        }
+                        else
+                        {
+                            <p class="text-red text-bold">No Active</p>
+                        }
+                    </td>
+                </tr>
+               
+            </table>
+            <div class="container mb-5">
+                <div class="row">
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-info">Back to List</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

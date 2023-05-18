@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mongo.Models.BusinessModels
 {
-    public interface AreaRepository : IGenericRepository<Area,int>
+    public interface AreaRepository : IGenericRepository<Area,string>
     {
         List<Area> pagination(int page, int size, out long totalPage);
         List<Area> searchPagination(string name, int page, int size, out long totalPage);

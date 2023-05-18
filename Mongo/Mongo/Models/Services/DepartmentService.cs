@@ -5,19 +5,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
+using Mongo.Models.ViewModels;
 
 namespace Mongo.Models.Services
 {
     public class DepartmentService : DepartmentRepository
     {
-        TestDBContext context;
+        TestDBContext context = new TestDBContext();
 
         public DepartmentService(TestDBContext context)
         {
             this.context = context;
         }
 
-        public bool delete(int key)
+        public DepartmentService()
+        {
+        }
+
+        public bool delete(string key)
         {
             try
             {
@@ -36,7 +41,71 @@ namespace Mongo.Models.Services
             return departments;
         }
 
-        public Department getById(int key)
+        public List<DepartmentViewModel> getViewAll(int page, int size, out long totalPage)
+        {   
+            int skip = size * (page - 1);
+            long rows = context.Departments.CountDocuments(FilterDefinition<Department>.Empty);
+            totalPage = rows % size == 0 ? rows / size : rows / size + 1;
+            var departments = context.Departments.Find(FilterDefinition<Department>.Empty).Skip(skip).Limit(size).ToList();
+            List<DepartmentViewModel> departmentViewModels = new List<DepartmentViewModel>();
+            foreach (var item in departments)
+            {
+                var dep = new DepartmentViewModel();
+                dep._id = item._id;
+                dep.name = item.name;
+                dep.status = item.status;
+                dep.count = context.Employees.CountDocuments(x => x.departmentID == item._id);
+                var leads = context.Employees.Find(x => x.departmentID == item._id && x.positionID == "po09").ToList();
+                var data = "";
+                if (leads.Count() > 0)
+                {
+                    foreach (var i in leads)
+                    {
+                        data += i.firstName + " " + i.lastName + ",";
+                    }
+                    data = data.Substring(0, data.Length - 1);
+                }
+                dep.leader = data;
+                departmentViewModels.Add(dep);
+            }
+            return departmentViewModels;
+        }
+
+        public List<DepartmentViewModel> getViewAllandSearch(string name,int page, int size, out long totalPage)
+        {
+            if(name == null)
+            {
+                name = "";
+            }
+            int skip = size * (page - 1);
+            long rows = context.Departments.CountDocuments(x => x.name.ToLower().Contains(name.ToLower()));
+            totalPage = rows % size == 0 ? rows / size : rows / size + 1;
+            var departments = context.Departments.Find(x => x.name.ToLower().Contains(name.ToLower())).Skip(skip).Limit(size).ToList();
+            List<DepartmentViewModel> departmentViewModels = new List<DepartmentViewModel>();
+            foreach (var item in departments)
+            {
+                var dep = new DepartmentViewModel();
+                dep._id = item._id;
+                dep.name = item.name;
+                dep.status = item.status;
+                dep.count = context.Employees.CountDocuments(x => x.departmentID == item._id);
+                var leads = context.Employees.Find(x => x.departmentID == item._id && x.positionID == "4").ToList();
+                var data = "";
+                if (leads.Count() > 0)
+                {
+                    foreach (var i in leads)
+                    {
+                        data += i.firstName + " " + i.lastName + ",";
+                    }
+                    data = data.Substring(0, data.Length - 1);
+                }
+                dep.leader = data;
+                departmentViewModels.Add(dep);
+            }
+            return departmentViewModels;
+        }
+
+        public Department getById(string key)
         {
             var department = context.Departments.Find(x => x._id == key).FirstOrDefault();
             return department;
@@ -57,18 +126,14 @@ namespace Mongo.Models.Services
 
         public List<Department> pagination(int page, int size, out long totalPage)
         {
-            int skip = size * (page - 1);
-            long rows = context.Departments.CountDocuments(FilterDefinition<Department>.Empty);
-            totalPage = rows % size == 0 ? rows / size : rows / size + 1;
-            return context.Departments.Find(FilterDefinition<Department>.Empty).Skip(skip).Limit(size).ToList();
+            totalPage = 0;
+            return null;
         }
 
         public List<Department> searchPagination(string name, int page, int size, out long totalPage)
         {
-            int skip = size * (page - 1);
-            long rows = context.Departments.CountDocuments(x => x.name.ToLower().Contains(name.ToLower()));
-            totalPage = rows % size == 0 ? rows / size : rows / size + 1;
-            return context.Departments.Find(x => x.name.ToLower().Contains(name.ToLower())).Skip(skip).Limit(size).ToList();
+            totalPage = 0;
+            return null;
         }
 
         public bool update(Department entity)
@@ -85,6 +150,12 @@ namespace Mongo.Models.Services
                 return false;
             }
             return true;
+        }
+
+        public long getCountEmp(string id)
+        {
+            var count = context.Employees.CountDocuments(x => x.departmentID == id);
+            return count;
         }
     }
 }
