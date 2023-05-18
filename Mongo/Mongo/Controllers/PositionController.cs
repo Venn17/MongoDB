@@ -25,6 +25,7 @@ namespace Mongo.Controllers
             ViewBag.Key = key;
             ViewBag.totalPage = totalPage;
             ViewBag.CurrentPage = page;
+            ViewBag.Login = LoginController.getLogin();
             return View(data);
         }
 
@@ -37,12 +38,14 @@ namespace Mongo.Controllers
             ViewBag.Position = position;
             ViewBag.totalPage = totalPage;
             ViewBag.CurrentPage = page;
+            ViewBag.Login = LoginController.getLogin();
             return View(data);
         }
 
         // GET: Position/Create
         public ActionResult Create()
         {
+            ViewBag.Login = LoginController.getLogin();
             return View();
         }
 
@@ -67,6 +70,7 @@ namespace Mongo.Controllers
         // GET: Position/Edit/5
         public ActionResult Edit(string id)
         {
+            ViewBag.Login = LoginController.getLogin();
             var data = service.getById(id);
             return View(data);
         }
@@ -106,6 +110,7 @@ namespace Mongo.Controllers
             ViewBag.Key = "";
             ViewBag.totalPage = totalPage;
             ViewBag.CurrentPage = 1;
+            ViewBag.Login = LoginController.getLogin();
             return View("Index",data);
         }
     }

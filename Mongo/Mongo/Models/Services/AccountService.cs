@@ -113,6 +113,25 @@ namespace Mongo.Models.Services
             return context.Accounts.Find(x => x._id == data._id).FirstOrDefault();
         }
 
+        public bool update(Account a)
+        {
+            var data = Builders<Account>.Update
+                        .Set("name", a.name)
+                        .Set("email", a.email)
+                        .Set("status", a.status);
+            context.Accounts.UpdateOne(x => x._id == a._id, data);
+            return true;
+        }
+
+
+        public bool updatePass(Account a,string pass)
+        {
+            var data = Builders<Account>.Update
+                        .Set("password", pass);
+            context.Accounts.UpdateOne(x => x._id == a._id, data);
+            return true;
+        }
+
         public Account register(Account data)
         {
             try

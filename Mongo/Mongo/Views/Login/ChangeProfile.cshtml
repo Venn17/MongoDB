@@ -1,0 +1,47 @@
+﻿@model Mongo.Models.DataModels.Account;
+@{
+    ViewData["Title"] = "ChangeProfile";
+}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <h2 style="font-family:Consolas">Change Profile</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form asp-action="updateProfile" >
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="_id" hidden class="form-control" />
+                    <span asp-validation-for="_id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="name" class="control-label">Name</label>
+                    <input asp-for="name" class="form-control" />
+                    <span asp-validation-for="name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="email" class="control-label">Email</label>
+                    <input asp-for="email" class="form-control" />
+                    <span asp-validation-for="email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="w-25">Status</label>
+                            <input type="radio" asp-for="status" value="true" class="mr-2" />Active
+                            <input type="radio" asp-for="status" value="false" class="mr-2 ml-5" />No Active
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-success mr-5" />
+                    <a class="btn btn-primary" href="/">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

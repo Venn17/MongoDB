@@ -20,11 +20,13 @@ namespace Mongo.Controllers
             var data = department.getViewAll(page,3,out row);
             ViewBag.totalPage = row;
             ViewBag.CurrentPage = page;
+            ViewBag.Login = LoginController.getLogin();
             return View(data);
         }
 
         public IActionResult Create()
         {
+            ViewBag.Login = LoginController.getLogin();
             return View();
         }
 
@@ -39,6 +41,7 @@ namespace Mongo.Controllers
 
         public IActionResult Edit(string id)
         {
+            ViewBag.Login = LoginController.getLogin();
             var depart = department.getById(id);
             return View(depart);
         }
@@ -52,6 +55,7 @@ namespace Mongo.Controllers
 
         public IActionResult Delete(string id)
         {
+            ViewBag.Login = LoginController.getLogin();
             long count = department.getCountEmp(id);
             if (count == 0) {
                 department.delete(id);
@@ -70,6 +74,7 @@ namespace Mongo.Controllers
 
         public IActionResult Search(string key, int page = 1)
         {
+            ViewBag.Login = LoginController.getLogin();
             if (key == null || key == "")
             {
                 return RedirectToAction("Index");

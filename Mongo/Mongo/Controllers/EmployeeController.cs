@@ -28,12 +28,14 @@ namespace Mongo.Controllers
             ViewBag.Area = a;
             ViewBag.totalPage = row;
             ViewBag.CurrentPage = page;
+            ViewBag.Login = LoginController.getLogin();
             return View(data);
         }
 
         // GET: Employee/Details/5
         public ActionResult Details(string id)
         {
+            ViewBag.Login = LoginController.getLogin();
             var data = employeeService.getAllById(id);
             return View(data);
         }
@@ -47,6 +49,7 @@ namespace Mongo.Controllers
             ViewBag.Department = dep;
             ViewBag.Position = po;
             ViewBag.Area = a;
+            ViewBag.Login = LoginController.getLogin();
             return View();
         }
 
@@ -76,6 +79,7 @@ namespace Mongo.Controllers
             ViewBag.Department = dep;
             ViewBag.Position = po;
             ViewBag.Area = a;
+            ViewBag.Login = LoginController.getLogin();
             return View(emp);
         }
 
@@ -99,6 +103,7 @@ namespace Mongo.Controllers
         public ActionResult Delete(string id)
         {
             employeeService.delete(id);
+            ViewBag.Login = LoginController.getLogin();
             return RedirectToAction("Index");
         }
 
@@ -118,6 +123,7 @@ namespace Mongo.Controllers
             ViewBag.AreaID = areaID;
             ViewBag.totalPage = row;
             ViewBag.CurrentPage = page;
+            ViewBag.Login = LoginController.getLogin();
             return View(data);
         }
     }
